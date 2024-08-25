@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form </title>
+     <style>
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+        .success {
+            color: green;
+            font-size: 12px;
+        }
+    </style>
+   
+        
+</head>
+<body>
+    <form id="signup-form">
+        <label for="email">Email:</label>
+        <br>
+        <input type="email" id="email" name="email" placeholder="Example@email.com">
+        <div id="email-error" class="error"></div>
+        <br>
+        <br>
+        
+        <label for="password">Password:</label>
+        <br>
+        <input type="password" id="password" name="password" placeholder="Password">
+        <div id="password-error" class="error"></div>
+        <br>
+        
+        <button class="button" type="submit">Submit</button>
+        <div id="form-status" class="success"></div>
+    </form>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const formStatus = document.getElementById('form-status');
+            const form = document.getElementById('signup-form');
+            
+            function validateEmail() {
+                const emailValue = emailInput.value;
+                if (emailValue.length > 3 && emailValue.includes('@') && emailValue.includes('.')) {
+                    emailError.textContent = '';
+                    return true;
+                } else {
+                    emailError.textContent = 'Make sure email is more than 3 characters  and has "@" and "."';
+                    return false;
+                }
+            }
+            
+            function validatePassword() {
+                const passwordValue = passwordInput.value;
+                if (passwordValue.length > 8) {
+                    passwordError.textContent = '';
+                    return true;
+                } else {
+                    passwordError.textContent = 'Make sure the Password is more than 8 characters long';
+                    return false;
+                }
+            }
+            
+            emailInput.addEventListener('input', validateEmail);
+            passwordInput.addEventListener('input', validatePassword);
+            
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+                
+                const emailValid = validateEmail();
+                const passwordValid = validatePassword();
+                
+                if (emailValid && passwordValid) {
+                    formStatus.textContent = 'All good to go!';
+                    
+                    if (confirm('Are you sure you want to submit?')) {
+                        alert('Successful signup!');
+                    } else {
+                        // Redirect to the same page and clear the input values
+                        window.location.href = window.location.href;
+                    }
+                    
+                    // Clear the input fields
+                    emailInput.value = '';
+                    passwordInput.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
